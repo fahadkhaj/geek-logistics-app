@@ -80,7 +80,7 @@ const translations = {
 const serviceTypes = [{ id: 'FTL', icon: <Truck size={28} />, title: 'Full truckload (FTL)', desc: 'Best for shipments that fill an entire truck.' }, { id: 'LTL', icon: <Layers size={28} />, title: 'Less-than-truckload (LTL)', desc: 'Best for shipments under 12 pallets.' }];
 const equipmentTypes = [{ id: 'Flatbed', icon: <Truck size={24} />, title: 'Flatbed', desc: 'Standard open trailer.' }, { id: 'Dry Van', icon: <Box size={24} />, title: 'Dry Van', desc: 'Enclosed cargo area.' }, { id: 'Tipper', icon: <Truck size={24} />, title: 'Tipper', desc: 'Bulk loose materials.' }, { id: 'Refrigerated', icon: <Snowflake size={24} />, title: 'Refrigerated', desc: 'Temperature controlled.' }];
 
-const transitionEase = "easeInOut";
+const transitionEase = "easeInOut" as const;
 const containerVar = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
 const itemVar = { hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: transitionEase } } };
 const stepVar = { hidden: { opacity: 0, x: 20 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: transitionEase } }, exit: { opacity: 0, x: -20, transition: { duration: 0.2 } } };
@@ -289,15 +289,15 @@ export default function Dashboard() {
     };
 
     const DriverRightSidebar = () => (
-      <div className="w-full lg:w-[360px] space-y-4 sm:space-y-6 flex flex-col h-full">
+      <div className="w-full lg:w-90 space-y-4 sm:space-y-6 flex flex-col h-full">
          <div className="flex lg:hidden items-center justify-between mb-2 pb-4 border-b border-white/10">
              <h3 className={`text-sm font-bold ${textPrimary}`}>{t.toggleDash}</h3>
              <button onClick={() => setIsRightSidebarOpen(false)} className={`p-2 rounded-full ${isDark ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-800'}`}><X size={16}/></button>
          </div>
-         <div className={`p-6 sm:p-8 flex flex-col justify-between min-h-[160px] ${glassCard}`}>
+         <div className={`p-6 sm:p-8 flex flex-col justify-between min-h-40 ${glassCard}`}>
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center justify-center"><Wallet size={18} className="text-green-500" /></div>
-              <h3 className={`text-[10px] font-bold uppercase tracking-widest ${textSecondary}`}>{t.wallet}</h3>
+              <h3 className={`text-[10px] font-bold uppercase tracking-widest ${textSecondary}`}> {t.wallet} </h3>
             </div>
             <p className={`text-3xl font-bold tracking-tight ${textPrimary}`}>0.00 <span className={`text-[10px] font-medium ${textSecondary}`}>TZS</span></p>
          </div>
@@ -535,7 +535,7 @@ export default function Dashboard() {
 
       return (
         <div className={`p-6 sm:p-8 rounded-3xl border ${innerCard} relative`}>
-          <div className={`absolute left-[47px] top-12 bottom-12 w-0.5 ${isDark ? 'bg-white/5' : 'bg-slate-200'}`} />
+          <div className={`absolute left-11.75 top-12 bottom-12 w-0.5 ${isDark ? 'bg-white/5' : 'bg-slate-200'}`} />
           <div className="space-y-8 relative z-10">
             {steps.map((s, i) => (
               <div key={i} className="flex items-center gap-5">
