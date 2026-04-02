@@ -7,15 +7,14 @@ import {
   Sun, Moon, ShieldCheck, Activity, ArrowRight, Truck, Wallet, 
   Map, Zap, CheckCircle2, Globe, FileText, HeadphonesIcon,
   Package, Mail, Lock, Loader2, User, AlertTriangle, Phone, 
-  CreditCard, Hash, MapPin, ChevronDown, ArrowLeft, Eye, EyeOff, KeyRound
+  CreditCard, Hash, MapPin, ChevronDown, ArrowLeft, Eye, EyeOff
 } from 'lucide-react';
 
 const tanzaniaRegions = [
   "Arusha", "Dar es Salaam", "Dodoma", "Geita", "Iringa", "Kagera", "Katavi", "Kigoma", 
   "Kilimanjaro", "Lindi", "Manyara", "Mara", "Mbeya", "Morogoro", "Mtwara", "Mwanza", 
-  "Njombe", "Pemba Kaskazini", "Pemba Kusini", "Pwani", "Rukwa", "Ruvuma", "Shinyanga", 
-  "Simiyu", "Singida", "Songwe", "Tabora", "Tanga", "Zanzibar Mjini Magharibi", 
-  "Zanzibar Kaskazini", "Zanzibar Kusini"
+  "Njombe", "Pwani", "Rukwa", "Ruvuma", "Shinyanga", "Simiyu", "Singida", "Songwe", 
+  "Tabora", "Tanga", "Zanzibar"
 ];
 
 const translations = {
@@ -71,7 +70,10 @@ export default function Login() {
   const [lang, setLang] = useState<'SW' | 'EN'>('EN');
   const [role, setRole] = useState<'cargo_owner' | 'truck_owner'>('cargo_owner');
   const [isLogin, setIsLogin] = useState(true);
-  const [isDark, setIsDark] = useState(true);
+  
+  // DEFAULT LIGHT THEME 
+  const [isDark, setIsDark] = useState(false); 
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -93,9 +95,10 @@ export default function Login() {
     checkSession();
   }, [router]);
 
-  // BULLETPROOF HYDRATION SHIELD
-  if (!mounted) return <div className="min-h-screen bg-[#080b1a]" />;
-  if (isCheckingSession) return <div className="min-h-screen flex items-center justify-center bg-[#080b1a]"><Loader2 size={32} className="text-indigo-500 animate-spin" /></div>;
+  // BULLETPROOF HYDRATION SHIELD (Returns null until client mounts)
+  if (!mounted) return null;
+  
+  if (isCheckingSession) return <div className={`min-h-screen flex items-center justify-center ${isDark ? 'bg-[#080b1a]' : 'bg-[#f4f6f8]'}`}><Loader2 size={32} className="text-indigo-500 animate-spin" /></div>;
 
   const t = translations[lang];
   const isCargoMode = role === 'cargo_owner';
@@ -103,9 +106,9 @@ export default function Login() {
   const textPrimary = isDark ? "text-white" : "text-slate-900";
   const textSecondary = isDark ? "text-slate-400" : "text-slate-500";
   const bgMainClass = isDark ? 'bg-[#080b1a]' : 'bg-[#f4f6f8]'; 
-  const glassNav = isDark ? "bg-[#080b1a]/40 border-white/5 backdrop-blur-2xl" : "bg-white/40 border-slate-200/50 backdrop-blur-2xl";
-  const glassPanelCard = isDark ? "bg-white/[0.02] border-white/5 shadow-2xl backdrop-blur-2xl" : "bg-white/80 border-slate-200 shadow-xl backdrop-blur-2xl";
-  const glassPanelStory = isDark ? "bg-white/[0.02] border-white/5 backdrop-blur-xl" : "bg-white border-slate-200 backdrop-blur-xl shadow-sm";
+  const glassNav = isDark ? "bg-[#080b1a]/40 border-white/5 backdrop-blur-2xl" : "bg-white/60 border-slate-200/50 backdrop-blur-2xl";
+  const glassPanelCard = isDark ? "bg-white/[0.02] border-white/5 shadow-2xl backdrop-blur-2xl" : "bg-white border-slate-200 shadow-2xl backdrop-blur-2xl";
+  const glassPanelStory = isDark ? "bg-white/[0.02] border-white/5 backdrop-blur-xl" : "bg-white/80 border-slate-200 backdrop-blur-xl shadow-sm";
   const accentColor = isCargoMode ? 'text-indigo-500' : 'text-orange-500';
   const bgGradient = isCargoMode ? 'from-indigo-600 to-indigo-500' : 'from-orange-600 to-orange-500';
   const focusRing = isCargoMode ? 'focus:border-indigo-500 focus:ring-indigo-500/20' : 'focus:border-orange-500 focus:ring-orange-500/20';
@@ -203,15 +206,15 @@ export default function Login() {
       <nav className={`fixed top-0 inset-x-0 z-50 border-b transition-colors duration-500 ${glassNav}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
           <div className="flex items-center">
-            <button onClick={() => router.push('/')} className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold tracking-widest uppercase transition-colors active:scale-95 shadow-sm ${isDark ? 'border-white/10 bg-white/5 text-white hover:bg-white/10' : 'border-slate-200 bg-white/80 text-slate-700 hover:bg-white'}`}>
+            <button onClick={() => router.push('/')} className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold tracking-widest uppercase transition-colors active:scale-95 shadow-sm ${isDark ? 'border-white/10 bg-white/5 text-white hover:bg-white/10' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'}`}>
               <ArrowLeft className="w-4 h-4" /> <span className="hidden sm:inline">{t.backHome}</span>
             </button>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={() => setLang(lang === 'SW' ? 'EN' : 'SW')} className={`flex px-3 sm:px-4 py-2.5 rounded-xl border text-xs font-bold uppercase transition-colors active:scale-95 ${isDark ? 'border-white/10 bg-white/5 text-white hover:bg-white/10' : 'border-slate-200 bg-white/80 text-slate-700 hover:bg-white'}`}>
+            <button onClick={() => setLang(lang === 'SW' ? 'EN' : 'SW')} className={`flex px-3 sm:px-4 py-2.5 rounded-xl border text-xs font-bold uppercase transition-colors active:scale-95 ${isDark ? 'border-white/10 bg-white/5 text-white hover:bg-white/10' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'}`}>
               <Globe className="w-4 h-4 sm:mr-2" /> <span className="hidden sm:inline">{lang}</span><span className="inline sm:hidden ml-1">{lang}</span>
             </button>
-            <button onClick={() => setIsDark(!isDark)} className={`p-2.5 rounded-xl border transition-colors active:scale-95 ${isDark ? 'border-white/10 bg-white/5 text-yellow-400 hover:bg-white/10' : 'border-slate-200 bg-white/80 text-indigo-600 hover:bg-white'}`}>
+            <button onClick={() => setIsDark(!isDark)} className={`p-2.5 rounded-xl border transition-colors active:scale-95 ${isDark ? 'border-white/10 bg-white/5 text-yellow-400 hover:bg-white/10' : 'border-slate-200 bg-white text-indigo-600 hover:bg-slate-50 shadow-sm'}`}>
               {isDark ? <Sun size={18} /> : <Moon size={18} />}
             </button>
           </div>
@@ -342,7 +345,6 @@ export default function Login() {
                 
                 <div className="mt-6 text-center">
                   <AnimatePresence mode="wait">
-                    {/* CHANGED FROM <motion.p> TO <motion.div> TO FIX HYDRATION ERROR */}
                     <motion.div key={`switch-${lang}`} variants={langCrossfade} initial="hidden" animate="visible" exit="exit" className={`text-sm font-medium ${textSecondary}`}>
                       {isLogin ? `${t.unrecognized} ` : `${t.verified} `}
                       <button type="button" onClick={() => { setIsLogin(!isLogin); setError(null); }} className={`font-bold transition-colors ${accentColor} hover:underline`}>{isLogin ? t.reqClearance : t.authHere}</button>
