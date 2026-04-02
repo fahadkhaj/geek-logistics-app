@@ -80,7 +80,7 @@ const translations = {
 const serviceTypes = [{ id: 'FTL', icon: <Truck size={28} />, title: 'Full truckload (FTL)', desc: 'Best for shipments that fill an entire truck.' }, { id: 'LTL', icon: <Layers size={28} />, title: 'Less-than-truckload (LTL)', desc: 'Best for shipments under 12 pallets.' }];
 const equipmentTypes = [{ id: 'Flatbed', icon: <Truck size={24} />, title: 'Flatbed', desc: 'Standard open trailer.' }, { id: 'Dry Van', icon: <Box size={24} />, title: 'Dry Van', desc: 'Enclosed cargo area.' }, { id: 'Tipper', icon: <Truck size={24} />, title: 'Tipper', desc: 'Bulk loose materials.' }, { id: 'Refrigerated', icon: <Snowflake size={24} />, title: 'Refrigerated', desc: 'Temperature controlled.' }];
 
-const transitionEase = [0.16, 1, 0.3, 1];
+const transitionEase = "easeInOut";
 const containerVar = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
 const itemVar = { hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: transitionEase } } };
 const stepVar = { hidden: { opacity: 0, x: 20 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: transitionEase } }, exit: { opacity: 0, x: -20, transition: { duration: 0.2 } } };
