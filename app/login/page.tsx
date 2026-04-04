@@ -1,3 +1,4 @@
+// app/login/page.tsx
 "use client";
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
@@ -9,6 +10,7 @@ import {
   Package, Mail, Lock, Loader2, User, AlertTriangle, Phone, 
   CreditCard, Hash, MapPin, ChevronDown, ArrowLeft, Eye, EyeOff
 } from 'lucide-react';
+import { translations } from '../../lib/translations';
 
 const tanzaniaRegions = [
   "Arusha", "Dar es Salaam", "Dodoma", "Geita", "Iringa", "Kagera", "Katavi", "Kigoma", 
@@ -16,47 +18,6 @@ const tanzaniaRegions = [
   "Njombe", "Pwani", "Rukwa", "Ruvuma", "Shinyanga", "Simiyu", "Singida", "Songwe", 
   "Tabora", "Tanga", "Zanzibar"
 ];
-
-const translations = {
-  EN: {
-    backHome: 'Home', formLoginTitle: 'Welcome Back', formLoginSub: 'Sign in to access the freight market.',
-    formJoinTitle: 'Create Account', formJoinSub: 'Join East Africa\'s secure logistics network.',
-    cargoBtn: 'Cargo Owner', truckBtn: 'Truck Owner', name: 'Full Name / Company', phone: 'Phone (0700...)', 
-    region: 'Base Region', tinText: 'TIN / Business ID', truckType: 'Truck Type', capacity: 'Tonnage (e.g. 30)',
-    nidaText: '20-DIGIT NIDA', licenseText: 'Driving License No.', idVerification: 'ID Verification',
-    nidaDoc: 'NIDA ID', plateDoc: 'Truck Plate', email: 'Email Address', password: 'Password',
-    passReq: 'Min. 8 characters, 1 uppercase, 1 symbol.', btnInit: 'Sign In', btnDeploy: 'Create Account',
-    unrecognized: 'Don\'t have an account?', reqClearance: 'Create one', verified: 'Already have an account?', authHere: 'Sign in',
-    storyLogTitle1: 'Welcome to', storyLogTitle2: 'Geek Logistics.', storyLogSub: 'Your direct connection to premium freight and verified drivers.',
-    sysActive: 'System Active', sysActiveDesc: '99.9% Network Uptime.', endSecure: 'Secure & Verified', endSecureDesc: 'All dispatch data is protected.',
-    livePulse: 'Live Market Pulse', livePulseDesc: 'Real-time rates and metrics.',
-    storyCargoTitle1: 'Move cargo with', storyCargoTitle2: 'certainty.', storyCargoSub: 'Broadcast your load instantly to verified drivers.',
-    cargoF1: 'Reliable Drivers', cargoF1D: 'Trusted and fully vetted.', cargoF2: 'Live Telemetry', cargoF2D: 'Real-time GPS tracking.',
-    cargoF3: 'Instant Matching', cargoF3D: 'Find trucks in minutes.', cargoF4: 'Digital Docs', cargoF4D: 'Waybills and e-invoices.',
-    storyTruckTitle1: 'Never drive', storyTruckTitle2: 'empty.', storyTruckSub: 'Access premium loads with zero middlemen.',
-    truckF1: 'Fast Payouts', truckF1D: 'Get paid on delivery.', truckF2: 'Backhaul Matching', truckF2D: 'Automated return loads.',
-    truckF3: 'Secure Cargo', truckF3D: 'Vetted shippers only.', truckF4: '24/7 Support', truckF4D: 'Direct logistics assistance.'
-  },
-  SW: {
-    backHome: 'Mwanzo', formLoginTitle: 'Karibu Tena', formLoginSub: 'Ingia ili kufikia soko la mizigo.',
-    formJoinTitle: 'Tengeneza Akaunti', formJoinSub: 'Jiunge na mtandao salama wa usafirishaji.',
-    cargoBtn: 'Mmiliki wa Mzigo', truckBtn: 'Mmiliki wa Lori', name: 'Jina / Kampuni', phone: 'Simu (0700...)', 
-    region: 'Mkoa', tinText: 'TIN / Biashara', truckType: 'Aina ya Lori', capacity: 'Tani (mf. 30)',
-    nidaText: 'NIDA (Tarakimu 20)', licenseText: 'Namba ya Leseni', idVerification: 'Uthibitisho',
-    nidaDoc: 'NIDA', plateDoc: 'Namba ya Lori', email: 'Barua Pepe', password: 'Nenosiri',
-    passReq: 'Herufi 8+, kubwa, ndogo, na alama.', btnInit: 'Ingia', btnDeploy: 'Tengeneza Akaunti',
-    unrecognized: 'Huna akaunti?', reqClearance: 'Tengeneza hapa', verified: 'Tayari una akaunti?', authHere: 'Ingia hapa',
-    storyLogTitle1: 'Karibu', storyLogTitle2: 'Geek Logistics.', storyLogSub: 'Muunganiko wako wa moja kwa moja na madereva.',
-    sysActive: 'Mfumo Hewani', sysActiveDesc: 'Upatikanaji wa 99.9%.', endSecure: 'Usalama Kamili', endSecureDesc: 'Taarifa zote zinalindwa.',
-    livePulse: 'Soko Mubashara', livePulseDesc: 'Bei za wakati halisi.',
-    storyCargoTitle1: 'Safirisha kwa', storyCargoTitle2: 'uhakika.', storyCargoSub: 'Tangaza mzigo wako mara moja.',
-    cargoF1: 'Madereva Makini', cargoF1D: 'Wamehakikiwa kikamilifu.', cargoF2: 'Ufuatiliaji Mubashara', cargoF2D: 'Tazama mzigo kwenye ramani.',
-    cargoF3: 'Lori la Haraka', cargoF3D: 'Pata lori ndani ya dakika.', cargoF4: 'Nyaraka Dijitali', cargoF4D: 'Hati na ankara papo hapo.',
-    storyTruckTitle1: 'Usiendeshe', storyTruckTitle2: 'tupu.', storyTruckSub: 'Pata mizigo bila madalali.',
-    truckF1: 'Malipo ya Haraka', truckF1D: 'Lipwa mzigo ukifika.', truckF2: 'Mzigo wa Kurudia', truckF2D: 'Tunakutafutia mzigo wa kurudi.',
-    truckF3: 'Mizigo Salama', truckF3D: 'Wamiliki wamehakikiwa.', truckF4: 'Msaada 24/7', truckF4D: 'Timu yetu ipo kwa ajili yako.'
-  }
-};
 
 const transitionEase = [0.16, 1, 0.3, 1];
 const langCrossfade = { hidden: { opacity: 0, y: 5 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: transitionEase } }, exit: { opacity: 0, y: -5, transition: { duration: 0.2 } } };
@@ -71,7 +32,6 @@ export default function Login() {
   const [role, setRole] = useState<'cargo_owner' | 'truck_owner'>('cargo_owner');
   const [isLogin, setIsLogin] = useState(true);
   
-  // DEFAULT LIGHT THEME 
   const [isDark, setIsDark] = useState(false); 
   
   const [loading, setLoading] = useState(false);
@@ -95,7 +55,6 @@ export default function Login() {
     checkSession();
   }, [router]);
 
-  // BULLETPROOF HYDRATION SHIELD (Returns null until client mounts)
   if (!mounted) return null;
   
   if (isCheckingSession) return <div className={`min-h-screen flex items-center justify-center ${isDark ? 'bg-[#080b1a]' : 'bg-[#f4f6f8]'}`}><Loader2 size={32} className="text-indigo-500 animate-spin" /></div>;
