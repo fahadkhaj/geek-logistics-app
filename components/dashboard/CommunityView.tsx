@@ -1,6 +1,6 @@
 // components/dashboard/CommunityView.tsx
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Search, Send, Users, MapPin, Star } from 'lucide-react';
 
 interface CommunityViewProps {
@@ -24,8 +24,8 @@ const mockNetwork = [
   { id: 4, name: "Aisha M.", role: "Transporter", rating: 5.0, online: true, location: "Dodoma" },
 ];
 
-const transitionEase = [0.16, 1, 0.3, 1];
-const viewVar = { hidden: { opacity: 0, scale: 0.98 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: transitionEase } }, exit: { opacity: 0, scale: 0.98, transition: { duration: 0.2 } } };
+const transitionEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const viewVar: Variants = { hidden: { opacity: 0, scale: 0.98 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: transitionEase } }, exit: { opacity: 0, scale: 0.98, transition: { duration: 0.2 } } };
 
 export default function CommunityView({ t, isDark, isCargoMode, profile, triggerToast, addNotification }: CommunityViewProps) {
   const [feed, setFeed] = useState<any[]>([]); 
